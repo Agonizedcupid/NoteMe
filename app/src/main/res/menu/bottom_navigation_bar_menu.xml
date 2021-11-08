@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_open"
+        android:icon="@drawable/open_nav_menu_selector"
+        android:title="@string/nav_home"
+        android:enabled="true"
+        />
+
+    <item
+        android:id="@+id/nav_inProgress"
+        android:icon="@drawable/in_progress_nav_menu_selector"
+        android:title="@string/nav_InProgress"
+        android:enabled="true"
+        />
+
+    <item
+        android:id="@+id/nav_test"
+        android:icon="@drawable/test_nav_menu_selector"
+        android:title="@string/nav_test"
+        android:enabled="true"
+        />
+
+    <item
+        android:id="@+id/nav_done"
+        android:icon="@drawable/done_nav_menu_selector"
+        android:title="@string/nav_done"
+        android:enabled="true"
+        />
+
+</menu>

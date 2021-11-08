@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">NoteMe</string>
+
+    <string-array name="task_status_array">
+        <item>Open</item>
+        <item>In-Progress</item>
+        <item>Test</item>
+        <item>Done</item>
+    </string-array>
+
+    <string name="nav_home">Open</string>
+    <string name="nav_InProgress">In-progress</string>
+    <string name="nav_test">Test</string>
+    <string name="nav_done">Done</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_task_list">Open Task List</string>
+    <string name="in_progress_task_list">In-Progress Task List</string>
+    <string name="test_task_list">Test Task List</string>
+    <string name="done_task_list">Completed Task List</string>
+    <string name="task_name">Task Name:</string>
+    <string name="task_created_date">Created date:</string>
+    <string name="task_deadline">Deadline:</string>
+    <string name="task_status">Status:</string>
+    <string name="description">Description:</string>
+    <string name="dummyDescription">NoteMe project is a project keep track of our daily tasks. Here, we can add notes, save their details, status , deadlines etc.</string>
+    <string name="email_text">E-mail</string>
+    <string name="phone_text">Phone</string>
+    <string name="url_text">URL</string>
+    <string name="add_task">Add Tasks</string>
+    <string name="write_task_name">Write Task Name...</string>
+    <string name="write_description">Write Description ......</string>
+    <string name="submit_btn_text">Submit</string>
+    <string name="enter_phone">Enter Phone</string>
+    <string name="save_phone">Save Phone</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="save_email">Save E-mail</string>
+    <string name="enter_url">Enter Url</string>
+    <string name="save_url">Save Url</string>
+    <string name="ok_text">Ok</string>
+    <string name="successText">Task Saved Successfully</string>
+    <string name="warning_message">No Data Found!</string>
 </resources>
