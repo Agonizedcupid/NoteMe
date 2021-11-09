@@ -4,12 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/drawable/splash_screen_background_icon.xml" value="0.2890625" />
+        <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/activity_add_task.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/activity_main.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/activity_splash_screen.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/fragment_done.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/fragment_in_progress.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/fragment_open.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/fragment_test.xml" value="0.27291666666666664" />
+        <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/open_task_single_list.xml" value="0.27291666666666664" />
+        <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/success_dialog.xml" value="0.27291666666666664" />
+        <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/layout/url_phone_email_dialog.xml" value="0.27291666666666664" />
         <entry key="..\:/Projects/Android/NoteMe/app/src/main/res/menu/bottom_navigation_bar_menu.xml" value="0.27291666666666664" />
       </map>
     </option>

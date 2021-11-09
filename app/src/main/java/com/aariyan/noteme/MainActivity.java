@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.aariyan.noteme.Activity.AddTaskActivity;
 import com.aariyan.noteme.Constant.Constant;
 import com.aariyan.noteme.Fragment.DoneFragment;
 import com.aariyan.noteme.Fragment.InProgressFragment;
@@ -46,14 +47,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("headerTitle", topHeadingTitle.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        topHeadingTitle.setText(savedInstanceState.getString("headerTitle"));
+    }
 
     private void initUI() {
 
         addTaskBtn = findViewById(R.id.addTaskFloatingBtn);
+        addTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, AddTaskActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 
         //Toolbar text
         topHeadingTitle = findViewById(R.id.topHeadingTitle);
-
 
         //BottomNavigation View
         bottomNavigationView = findViewById(R.id.navigationBar);

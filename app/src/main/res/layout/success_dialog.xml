@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="7dp"
+    app:cardUseCompatPadding="true"
+    android:background="@color/main_background_color"
+    app:cardElevation="7dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/main_background_color"
+        >
+
+        <ImageView
+            android:id="@+id/topImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/tik_icon"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/successText"
+            android:layout_gravity="center"
+            android:textSize="18sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:fontFamily="@font/amaranth_bold"
+            />
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/ok_text"
+            />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
