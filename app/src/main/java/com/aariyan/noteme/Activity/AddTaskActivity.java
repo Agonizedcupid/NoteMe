@@ -34,6 +34,7 @@ public class AddTaskActivity extends AppCompatActivity {
     DatabaseAdapter databaseAdapter;
     long id;
 
+    private TextView topHeadingTitle;
     private EditText taskName, taskDescription;
     private TextView deadline;
     private Spinner statusSpinner;
@@ -80,6 +81,7 @@ public class AddTaskActivity extends AppCompatActivity {
         //if user want to update the task
         if (getIntent().hasExtra("hasExtra")) {
             checkTransition = true;
+            topHeadingTitle.setText(getResources().getString(R.string.update_task));
             createdDate = getIntent().getStringExtra("createdDate");
             status = getIntent().getStringExtra("status");
             title = getIntent().getStringExtra("title");
@@ -90,9 +92,11 @@ public class AddTaskActivity extends AppCompatActivity {
             taskUrl = getIntent().getStringExtra("url");
             primaryKey = getIntent().getIntExtra("id", -1);
             fillingOldValue();
+
         } else {
             //if user want to create new task
             checkTransition = false;
+            topHeadingTitle.setText(getResources().getString(R.string.add_task));
         }
 
 
@@ -223,6 +227,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     //instantiate UI and onClick event
     private void initUI() {
+        topHeadingTitle = findViewById(R.id.topHeadingTitle);
         taskName = findViewById(R.id.taskNameEditText);
         taskDescription = findViewById(R.id.taskDescriptionEditText);
         deadline = findViewById(R.id.deadlineTextView);
@@ -387,11 +392,12 @@ public class AddTaskActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddTaskActivity.this, HomeScreen.class)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                Intent intent = new Intent(AddTaskActivity.this, HomeScreen.class);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
                 dialog.dismiss();
+
             }
         });
 

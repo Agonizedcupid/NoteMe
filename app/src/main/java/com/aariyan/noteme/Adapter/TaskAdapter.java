@@ -98,11 +98,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 result = databaseAdapter.deleteTask("" + model.getPrimaryKey());
-
                 if (result > 0) {
                     Toast.makeText(context, "Task deleted successfully!", Toast.LENGTH_SHORT).show();
                     listOfTask.remove(position);
-                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
