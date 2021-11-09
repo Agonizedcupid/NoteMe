@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +26,8 @@ import com.aariyan.noteme.Database.DatabaseAdapter;
 import com.aariyan.noteme.MainActivity;
 import com.aariyan.noteme.R;
 
+import java.net.URL;
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -101,20 +104,20 @@ public class AddTaskActivity extends AppCompatActivity {
         emailLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInputDialogWithValue("email",taskEmail);
+                showInputDialogWithValue("email", taskEmail);
             }
         });
 
         phoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInputDialogWithValue("phone",taskPhone);
+                showInputDialogWithValue("phone", taskPhone);
             }
         });
         urlLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInputDialogWithValue("url",taskUrl);
+                showInputDialogWithValue("url", taskUrl);
             }
         });
     }
@@ -153,19 +156,54 @@ public class AddTaskActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (type.equals("phone")) {
+//                    phone = writeEmailPhoneURL.getText().toString();
+//                    Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
+//                }
+//                if (type.equals("email")) {
+//                    email = writeEmailPhoneURL.getText().toString();
+//                    Toast.makeText(AddTaskActivity.this, "Email added!", Toast.LENGTH_SHORT).show();
+//
+//                }
+//                if (type.equals("url")) {
+//                    url = writeEmailPhoneURL.getText().toString();
+//                    Toast.makeText(AddTaskActivity.this, "URL added!", Toast.LENGTH_SHORT).show();
+//
+//                }
+                //Phone number
                 if (type.equals("phone")) {
-                    phone = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
+                    if (writeEmailPhoneURL.getText().toString().length() >= 11) {
+                        phone = writeEmailPhoneURL.getText().toString();
+                        Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
+                    } else if (writeEmailPhoneURL.getText().toString().length() > 0 && writeEmailPhoneURL.getText().toString().length() < 11) {
+                        Toast.makeText(AddTaskActivity.this, "Phone number should be 11 digit!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                //email
                 if (type.equals("email")) {
-                    email = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "Email added!", Toast.LENGTH_SHORT).show();
-
+                    if (writeEmailPhoneURL.getText().toString().length() > 0) {
+                        String emailValidationPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                        if (writeEmailPhoneURL.getText().toString().matches(emailValidationPattern)) {
+                            email = writeEmailPhoneURL.getText().toString();
+                            Toast.makeText(AddTaskActivity.this, "Email added!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddTaskActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-                if (type.equals("url")) {
-                    url = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "URL added!", Toast.LENGTH_SHORT).show();
 
+                //URL
+                if (type.equals("url")) {
+                    if (writeEmailPhoneURL.getText().toString().length() > 0) {
+                        if (isValidUrl(writeEmailPhoneURL.getText().toString())) {
+                            url = writeEmailPhoneURL.getText().toString();
+                            Toast.makeText(AddTaskActivity.this, "URL added!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddTaskActivity.this, "Invalid URL!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
                 }
                 dialog.dismiss();
             }
@@ -247,8 +285,8 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
     private void updateTask() {
-        id = databaseAdapter.updateTask(""+primaryKey,taskName.getText().toString(), selectedDate, taskStatus,
-                taskDescription.getText().toString(), ""+email, ""+phone, ""+url);
+        id = databaseAdapter.updateTask("" + primaryKey, taskName.getText().toString(), selectedDate, taskStatus,
+                taskDescription.getText().toString(), "" + email, "" + phone, "" + url);
 
         if (id > 0) {
             showSuccessDialog();
@@ -307,7 +345,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
         //If everything is ok (validation is done)
         id = databaseAdapter.insertTask(taskName.getText().toString(), Constant.todayDate(), selectedDate, taskStatus,
-                taskDescription.getText().toString(), ""+email, ""+phone, ""+url);
+                taskDescription.getText().toString(), "" + email, "" + phone, "" + url);
 
         if (id > 0) {
             showSuccessDialog();
@@ -323,7 +361,6 @@ public class AddTaskActivity extends AppCompatActivity {
         dialog.setCancelable(false);
 
         Button ok = dialog.findViewById(R.id.okBtn);
-
 
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -353,6 +390,7 @@ public class AddTaskActivity extends AppCompatActivity {
         if (type.equals("phone")) {
             topImage.setImageResource(R.drawable.ic_phone);
             writeEmailPhoneURL.setHint(getResources().getString(R.string.enter_phone));
+            writeEmailPhoneURL.setInputType(InputType.TYPE_CLASS_PHONE);
             save.setText(getResources().getString(R.string.save_phone));
         }
         if (type.equals("email")) {
@@ -371,24 +409,60 @@ public class AddTaskActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Phone number
                 if (type.equals("phone")) {
-                    phone = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
+                    if (writeEmailPhoneURL.getText().toString().length() >= 11) {
+                        phone = writeEmailPhoneURL.getText().toString();
+                        Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
+                    } else if (writeEmailPhoneURL.getText().toString().length() > 0 && writeEmailPhoneURL.getText().toString().length() < 11) {
+                        Toast.makeText(AddTaskActivity.this, "Phone number should be 11 digit!", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
+                //email
                 if (type.equals("email")) {
-                    email = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "Email added!", Toast.LENGTH_SHORT).show();
-
+                    if (writeEmailPhoneURL.getText().toString().length() > 0) {
+                        String emailValidationPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                        if (writeEmailPhoneURL.getText().toString().matches(emailValidationPattern)) {
+                            email = writeEmailPhoneURL.getText().toString();
+                            Toast.makeText(AddTaskActivity.this, "Email added!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddTaskActivity.this, "Invalid email!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
-                if (type.equals("url")) {
-                    url = writeEmailPhoneURL.getText().toString();
-                    Toast.makeText(AddTaskActivity.this, "URL added!", Toast.LENGTH_SHORT).show();
 
+                //URL
+                if (type.equals("url")) {
+                    if (writeEmailPhoneURL.getText().toString().length() > 0) {
+                        if (isValidUrl(writeEmailPhoneURL.getText().toString())) {
+                            url = writeEmailPhoneURL.getText().toString();
+                            Toast.makeText(AddTaskActivity.this, "URL added!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddTaskActivity.this, "Invalid URL!", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
                 }
                 dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    //Returns true if url is valid
+    public boolean isValidUrl(String url) {
+        //Try creating a valid URL
+        try {
+            new URL(url).toURI();
+            return true;
+        }
+
+        // If there was an Exception
+        // while creating URL object
+        catch (Exception e) {
+            return false;
+        }
     }
 }

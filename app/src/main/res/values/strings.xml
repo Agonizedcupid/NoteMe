@@ -35,7 +35,7 @@
     <string name="save_phone">Save Phone</string>
     <string name="enter_email">Enter Email</string>
     <string name="save_email">Save E-mail</string>
-    <string name="enter_url">Enter Url</string>
+    <string name="enter_url">Enter Url like (https://www.google.com)</string>
     <string name="save_url">Save Url</string>
     <string name="ok_text">Ok</string>
     <string name="successText">Task Saved Successfully</string>

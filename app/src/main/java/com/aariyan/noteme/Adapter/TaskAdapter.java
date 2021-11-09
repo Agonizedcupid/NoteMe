@@ -2,16 +2,20 @@ package com.aariyan.noteme.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.aariyan.noteme.Activity.AddTaskActivity;
+import com.aariyan.noteme.Activity.TaskDetailsActivity;
 import com.aariyan.noteme.Database.DatabaseAdapter;
 import com.aariyan.noteme.Model.TaskModel;
 import com.aariyan.noteme.R;
@@ -44,6 +48,55 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         holder.taskName.setText(model.getTaskName());
         holder.taskCreatedDate.setText(model.getTaskCreatedDate());
         holder.taskDeadline.setText(model.getTaskDeadline());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, TaskDetailsActivity.class);
+                intent.putExtra("createdDate", model.getTaskCreatedDate());
+                intent.putExtra("status", model.getTaskStatus());
+                intent.putExtra("title", model.getTaskName());
+                intent.putExtra("description", model.getTaskDescription());
+                intent.putExtra("deadline", model.getTaskDeadline());
+                intent.putExtra("email", model.getEmail());
+                intent.putExtra("phone", model.getPhone());
+                intent.putExtra("url", model.getUrl());
+                intent.putExtra("id", model.getPrimaryKey());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.editTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddTaskActivity.class);
+                intent.putExtra("hasExtra", "fromList");
+                intent.putExtra("createdDate", model.getTaskCreatedDate());
+                intent.putExtra("status", model.getTaskStatus());
+                intent.putExtra("title", model.getTaskName());
+                intent.putExtra("description", model.getTaskDescription());
+                intent.putExtra("deadline", model.getTaskDeadline());
+                intent.putExtra("email", model.getEmail());
+                intent.putExtra("phone", model.getPhone());
+                intent.putExtra("url", model.getUrl());
+                intent.putExtra("id", model.getPrimaryKey());
+                context.startActivity(intent);
+            }
+        });
+        holder.deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                result = databaseAdapter.deleteTask("" + model.getPrimaryKey());
+
+                if (result > 0) {
+                    Toast.makeText(context, "Task deleted successfully!", Toast.LENGTH_SHORT).show();
+                    listOfTask.remove(position);
+                    notifyItemRemoved(position);
+                } else {
+                    Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
