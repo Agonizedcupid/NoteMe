@@ -22,11 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestFragment extends Fragment {
-
+    //Instance variable of recyclerview for showing the Test task Task
     private RecyclerView testTaskRecyclerView;
+    //Instance variable of database
     DatabaseAdapter databaseAdapter;
+    //for taking the data list
     private List<TaskModel> listOfTestTask = new ArrayList<>();
+    //warning text when no data found
     private TextView warningText;
+    //progressbar will show when need time to show the data
     private ProgressBar progressBar;
 
     public TestFragment() {
@@ -53,7 +57,9 @@ public class TestFragment extends Fragment {
 
     private void loadData(String status) {
         listOfTestTask.clear();
-        listOfTestTask = databaseAdapter.getTestTask(status);
+        //listOfTestTask = databaseAdapter.getTestTask(status);
+        listOfTestTask = databaseAdapter.getOpenTask(status);
+        //if have the data on list
         if (listOfTestTask.size() > 0) {
             testTaskRecyclerView.setVisibility(View.VISIBLE);
             warningText.setVisibility(View.GONE);
@@ -61,6 +67,7 @@ public class TestFragment extends Fragment {
             testTaskRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
+            //if no data found
             testTaskRecyclerView.setVisibility(View.GONE);
             warningText.setVisibility(View.VISIBLE);
         }

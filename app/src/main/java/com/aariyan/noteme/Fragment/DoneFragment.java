@@ -22,10 +22,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DoneFragment extends Fragment {
+    //Instance variable of recyclerview for showing the Done Task
     private RecyclerView doneTaskRecyclerView;
+    //Instance variable of database
     DatabaseAdapter databaseAdapter;
+    //for taking the data list
     private List<TaskModel> listOfDoneTask = new ArrayList<>();
+    //warning text when no data found
     private TextView warningText;
+    //progressbar will show when need time to show the data
     private ProgressBar progressBar;
 
     public DoneFragment() {
@@ -54,7 +59,9 @@ public class DoneFragment extends Fragment {
 
     private void loadData(String status) {
         listOfDoneTask.clear();
-        listOfDoneTask = databaseAdapter.getDoneTask(status);
+        //listOfDoneTask = databaseAdapter.getDoneTask(status);
+        listOfDoneTask = databaseAdapter.getOpenTask(status);
+        //if have the data on list
         if (listOfDoneTask.size() > 0) {
             doneTaskRecyclerView.setVisibility(View.VISIBLE);
             warningText.setVisibility(View.GONE);
@@ -62,6 +69,7 @@ public class DoneFragment extends Fragment {
             doneTaskRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
+            //if no data found
             doneTaskRecyclerView.setVisibility(View.GONE);
             warningText.setVisibility(View.VISIBLE);
         }

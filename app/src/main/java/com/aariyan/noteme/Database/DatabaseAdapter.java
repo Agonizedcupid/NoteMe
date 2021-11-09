@@ -17,10 +17,8 @@ import java.util.List;
 public class DatabaseAdapter {
 
     DatabaseHelper helper;
-    private List<TaskModel> listOfOpenTask = new ArrayList<>();
-    private List<TaskModel> listOfInProgressTask = new ArrayList<>();
-    private List<TaskModel> listOfTestTask = new ArrayList<>();
-    private List<TaskModel> listOfDoneTask = new ArrayList<>();
+    //list of task:
+    private List<TaskModel> listOfTask = new ArrayList<>();
 
 
     public DatabaseAdapter(Context context) {
@@ -42,13 +40,14 @@ public class DatabaseAdapter {
         contentValues.put(DatabaseHelper.TASK_PHONE, phone);
         contentValues.put(DatabaseHelper.TASK_URL, url);
         long id = database.insert(DatabaseHelper.TABLE_NAME, null, contentValues);
-        //Log.d("RESULT_OF_I", "insertVendorData: " + vendorCheck);
         return id;
     }
 
 
+    //getting the open task
     public List<TaskModel> getOpenTask(String status) {
-        listOfOpenTask.clear();
+        //listOfOpenTask.clear();
+        listOfTask.clear();
         SQLiteDatabase database = helper.getWritableDatabase();
         String[] columns = {DatabaseHelper.UID,
                 DatabaseHelper.TASK_NAME, DatabaseHelper.TASK_CREATED_DATE, DatabaseHelper.TASK_DEADLINE,
@@ -70,99 +69,13 @@ public class DatabaseAdapter {
                     cursor.getString(7),
                     cursor.getString(8)
             );
-            listOfOpenTask.add(model);
+            listOfTask.add(model);
         }
 
-        return listOfOpenTask;
+        return listOfTask;
     }
 
-    public List<TaskModel> getInProgressTask(String status) {
-        listOfInProgressTask.clear();
-        SQLiteDatabase database = helper.getWritableDatabase();
-        String[] columns = {DatabaseHelper.UID,
-                DatabaseHelper.TASK_NAME, DatabaseHelper.TASK_CREATED_DATE, DatabaseHelper.TASK_DEADLINE,
-                DatabaseHelper.TASK_STATUS, DatabaseHelper.TASK_DESCRIPTION, DatabaseHelper.TASK_EMAIL,
-                DatabaseHelper.TASK_PHONE, DatabaseHelper.TASK_URL
-        };
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns, DatabaseHelper.TASK_STATUS + " = '" + status + "'", null, null, null, null);
-
-        while (cursor.moveToNext()) {
-
-            TaskModel model = new TaskModel(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8)
-            );
-            listOfInProgressTask.add(model);
-        }
-
-        return listOfInProgressTask;
-    }
-
-    public List<TaskModel> getTestTask(String status) {
-        listOfTestTask.clear();
-        SQLiteDatabase database = helper.getWritableDatabase();
-        String[] columns = {DatabaseHelper.UID,
-                DatabaseHelper.TASK_NAME, DatabaseHelper.TASK_CREATED_DATE, DatabaseHelper.TASK_DEADLINE,
-                DatabaseHelper.TASK_STATUS, DatabaseHelper.TASK_DESCRIPTION, DatabaseHelper.TASK_EMAIL,
-                DatabaseHelper.TASK_PHONE, DatabaseHelper.TASK_URL
-        };
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns, DatabaseHelper.TASK_STATUS + " = '" + status + "'", null, null, null, null);
-
-        while (cursor.moveToNext()) {
-
-            TaskModel model = new TaskModel(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8)
-            );
-            listOfTestTask.add(model);
-        }
-
-        return listOfTestTask;
-    }
-
-    public List<TaskModel> getDoneTask(String status) {
-        listOfDoneTask.clear();
-        SQLiteDatabase database = helper.getWritableDatabase();
-        String[] columns = {DatabaseHelper.UID,
-                DatabaseHelper.TASK_NAME, DatabaseHelper.TASK_CREATED_DATE, DatabaseHelper.TASK_DEADLINE,
-                DatabaseHelper.TASK_STATUS, DatabaseHelper.TASK_DESCRIPTION, DatabaseHelper.TASK_EMAIL,
-                DatabaseHelper.TASK_PHONE, DatabaseHelper.TASK_URL
-        };
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns, DatabaseHelper.TASK_STATUS + " = '" + status + "'", null, null, null, null);
-
-        while (cursor.moveToNext()) {
-
-            TaskModel model = new TaskModel(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getString(4),
-                    cursor.getString(5),
-                    cursor.getString(6),
-                    cursor.getString(7),
-                    cursor.getString(8)
-            );
-            listOfDoneTask.add(model);
-        }
-
-        return listOfDoneTask;
-    }
-
+    //for updating the task by id
     public int updateTask(String id, String taskName, String taskDeadline, String taskStatus,
                           String description, String email, String phone, String url) {
 
@@ -182,6 +95,8 @@ public class DatabaseAdapter {
         return count;
     }
 
+
+    //for deleting a task by id
     public int deleteTask(String id) {
         SQLiteDatabase database = helper.getWritableDatabase();
         String[] args = {id};
@@ -209,6 +124,7 @@ public class DatabaseAdapter {
         private static final String TASK_PHONE = "TaskPhone";
         private static final String TASK_URL = "TaskUrl";
 
+        //creating the table with entity
         private static final String CREATE_TASK_TABLE = "CREATE TABLE " + TABLE_NAME
                 + " (" + UID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TASK_NAME + " VARCHAR(255),"
@@ -220,6 +136,7 @@ public class DatabaseAdapter {
                 + TASK_PHONE + " VARCHAR(255),"
                 + TASK_URL + " VARCHAR(255));";
 
+        //drop the table if needed
         private static final String DROP_TASK_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 

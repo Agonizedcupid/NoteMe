@@ -17,6 +17,7 @@ public class Constant {
     public static List<TaskModel> listOfTask = new ArrayList<>();
     public static View rootView;
 
+    //For getting today's date
     public static String todayDate() {
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         Date date = new Date();

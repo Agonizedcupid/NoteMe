@@ -1,7 +1,5 @@
 package com.aariyan.noteme;
 
-import static com.aariyan.noteme.Constant.Constant.listOfTask;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,17 +11,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.aariyan.noteme.Activity.AddTaskActivity;
-import com.aariyan.noteme.Constant.Constant;
 import com.aariyan.noteme.Fragment.DoneFragment;
 import com.aariyan.noteme.Fragment.InProgressFragment;
 import com.aariyan.noteme.Fragment.OpenFragment;
 import com.aariyan.noteme.Fragment.TestFragment;
-import com.aariyan.noteme.Model.TaskModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeScreen extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private TextView topHeadingTitle;
@@ -50,12 +46,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        //getting the header value when orientation happen
         outState.putString("headerTitle", topHeadingTitle.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        //restoring the value after orientation
         topHeadingTitle.setText(savedInstanceState.getString("headerTitle"));
     }
 
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         addTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AddTaskActivity.class));
+                startActivity(new Intent(HomeScreen.this, AddTaskActivity.class));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });

@@ -23,10 +23,15 @@ import java.util.List;
 
 
 public class InProgressFragment extends Fragment {
+    //Instance variable of recyclerview for showing the In-Progress Task
     private RecyclerView inProgressTaskRecyclerView;
+    //Instance variable of database
     DatabaseAdapter databaseAdapter;
+    //for taking the data list
     private List<TaskModel> listOfInProgressTask = new ArrayList<>();
+    //warning text when no data found
     private TextView warningText;
+    //progressbar will show when need time to show the data
     private ProgressBar progressBar;
 
 
@@ -55,7 +60,9 @@ public class InProgressFragment extends Fragment {
 
     private void loadData(String status) {
         listOfInProgressTask.clear();
-        listOfInProgressTask = databaseAdapter.getInProgressTask(status);
+        //listOfInProgressTask = databaseAdapter.getInProgressTask(status);
+        listOfInProgressTask = databaseAdapter.getOpenTask(status);
+        //if have the data on list
         if (listOfInProgressTask.size() > 0) {
             inProgressTaskRecyclerView.setVisibility(View.VISIBLE);
             warningText.setVisibility(View.GONE);
@@ -63,6 +70,7 @@ public class InProgressFragment extends Fragment {
             inProgressTaskRecyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         } else {
+            //if no data found
             inProgressTaskRecyclerView.setVisibility(View.GONE);
             warningText.setVisibility(View.VISIBLE);
         }

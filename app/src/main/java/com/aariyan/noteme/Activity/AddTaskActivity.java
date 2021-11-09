@@ -23,11 +23,10 @@ import android.widget.Toast;
 
 import com.aariyan.noteme.Constant.Constant;
 import com.aariyan.noteme.Database.DatabaseAdapter;
-import com.aariyan.noteme.MainActivity;
+import com.aariyan.noteme.HomeScreen;
 import com.aariyan.noteme.R;
 
 import java.net.URL;
-import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class AddTaskActivity extends AppCompatActivity {
@@ -41,10 +40,14 @@ public class AddTaskActivity extends AppCompatActivity {
     private LinearLayout emailLayout, phoneLayout, urlLayout;
     private Button submitBtn;
 
+    //calender button to show the calender to choose date
     private ImageView calenderBtn;
+
+    //For date picker dialog
     private DatePickerDialog datePickerDialog;
     private Calendar calendar;
     int day, month, year;
+
     private String selectedDate = "";
     private String taskStatus = "";
     private String phone = "";
@@ -53,6 +56,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
 
+    //for storing the intent value
     private String createdDate, status, title, description, taskDeadline, taskEmail, taskPhone, taskUrl;
     private int primaryKey;
 
@@ -72,6 +76,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
         initUI();
 
+        //taking the intent value
+        //if user want to update the task
         if (getIntent().hasExtra("hasExtra")) {
             checkTransition = true;
             createdDate = getIntent().getStringExtra("createdDate");
@@ -85,12 +91,14 @@ public class AddTaskActivity extends AppCompatActivity {
             primaryKey = getIntent().getIntExtra("id", -1);
             fillingOldValue();
         } else {
+            //if user want to create new task
             checkTransition = false;
         }
 
 
     }
 
+    //filling UI with present data
     private void fillingOldValue() {
         taskName.setText(title, TextView.BufferType.EDITABLE);
         taskDescription.setText(description, TextView.BufferType.EDITABLE);
@@ -122,6 +130,7 @@ public class AddTaskActivity extends AppCompatActivity {
         });
     }
 
+    //show the dialog with value to update
     private void showInputDialogWithValue(String type, String value) {
         Dialog dialog = new Dialog(AddTaskActivity.this);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -212,6 +221,7 @@ public class AddTaskActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    //instantiate UI and onClick event
     private void initUI() {
         taskName = findViewById(R.id.taskNameEditText);
         taskDescription = findViewById(R.id.taskDescriptionEditText);
@@ -275,8 +285,10 @@ public class AddTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!checkTransition) {
+                    //if want to add a new task
                     addTask();
                 } else {
+                    //if use want to update the task
                     updateTask();
                 }
 
@@ -284,17 +296,22 @@ public class AddTaskActivity extends AppCompatActivity {
         });
     }
 
+    //for updating the task
     private void updateTask() {
+        //by id checking the update is completed successfully or not;
         id = databaseAdapter.updateTask("" + primaryKey, taskName.getText().toString(), selectedDate, taskStatus,
                 taskDescription.getText().toString(), "" + email, "" + phone, "" + url);
 
+        //if update happens successfully
         if (id > 0) {
             showSuccessDialog();
         } else {
+            //if found any issues
             Toast.makeText(AddTaskActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    //for selecting the date from date picker
     private void selectDate() {
         datePickerDialog = new DatePickerDialog(AddTaskActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -308,12 +325,14 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         }, day, month, year);
 
+        //for not showing the previous date before today
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
         datePickerDialog.show();
         progressBar.setVisibility(View.GONE);
     }
 
+    //For adding new task
     private void addTask() {
         if (TextUtils.isEmpty(taskName.getText().toString())) {
             taskName.setError("Task name can't be empty!");
@@ -354,6 +373,8 @@ public class AddTaskActivity extends AppCompatActivity {
         }
     }
 
+    //if success for adding or updating a task
+    //It will redirect you to the MainActivity
     private void showSuccessDialog() {
         Dialog dialog = new Dialog(AddTaskActivity.this);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -366,7 +387,7 @@ public class AddTaskActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddTaskActivity.this, MainActivity.class)
+                startActivity(new Intent(AddTaskActivity.this, HomeScreen.class)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -377,6 +398,7 @@ public class AddTaskActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    //for input value of option phone, email and url
     private void showInputDialog(String type) {
         Dialog dialog = new Dialog(AddTaskActivity.this);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -411,10 +433,13 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Phone number
                 if (type.equals("phone")) {
+                    //checking if the phone number is valid of 11 digit
                     if (writeEmailPhoneURL.getText().toString().length() >= 11) {
                         phone = writeEmailPhoneURL.getText().toString();
                         Toast.makeText(AddTaskActivity.this, "Phone number added!", Toast.LENGTH_SHORT).show();
-                    } else if (writeEmailPhoneURL.getText().toString().length() > 0 && writeEmailPhoneURL.getText().toString().length() < 11) {
+                    }
+                    //if phone number is not valid
+                    else if (writeEmailPhoneURL.getText().toString().length() > 0 && writeEmailPhoneURL.getText().toString().length() < 11) {
                         Toast.makeText(AddTaskActivity.this, "Phone number should be 11 digit!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -422,6 +447,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 //email
                 if (type.equals("email")) {
                     if (writeEmailPhoneURL.getText().toString().length() > 0) {
+                        //validating the email with regex/pattern
                         String emailValidationPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                         if (writeEmailPhoneURL.getText().toString().matches(emailValidationPattern)) {
                             email = writeEmailPhoneURL.getText().toString();

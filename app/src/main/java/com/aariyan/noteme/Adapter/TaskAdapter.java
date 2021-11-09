@@ -26,13 +26,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     //to get the context of host activity or fragment
     private Context context;
+    //to get the whole list of data
     private List<TaskModel> listOfTask;
+    // instance variable for performing Update and Delete operation
     DatabaseAdapter databaseAdapter;
     int result;
 
     public TaskAdapter(Context context, List<TaskModel> listOfTask) {
         this.context = context;
         this.listOfTask = listOfTask;
+        //instantiate the database
         databaseAdapter = new DatabaseAdapter(context);
     }
 
@@ -44,11 +47,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        //mapping the list data with model class
         TaskModel model = listOfTask.get(position);
+        //set the task name
         holder.taskName.setText(model.getTaskName());
+        //set the created date
         holder.taskCreatedDate.setText(model.getTaskCreatedDate());
+        //set the deadline of task
         holder.taskDeadline.setText(model.getTaskDeadline());
 
+        //for showing the details of particular task
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +74,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             }
         });
 
+        //for editing single task
         holder.editTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +92,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 context.startActivity(intent);
             }
         });
+
+        //delete a single task
         holder.deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

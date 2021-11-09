@@ -16,7 +16,7 @@
             android:name=".Activity.AddTaskActivity"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeScreen"
             android:exported="true" />
         <activity
             android:name=".Activity.SplashScreenActivity"

@@ -8,7 +8,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.aariyan.noteme.MainActivity;
+import com.aariyan.noteme.HomeScreen;
 import com.aariyan.noteme.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -26,7 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 //This method will be executed once the timer is over
                 // Start your app main activity
-                startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+                startActivity(new Intent(SplashScreenActivity.this, HomeScreen.class));
                 // close this activity
                 finish();
             }

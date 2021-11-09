@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aariyan.noteme.Database.DatabaseAdapter;
-import com.aariyan.noteme.MainActivity;
+import com.aariyan.noteme.HomeScreen;
 import com.aariyan.noteme.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -22,6 +22,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
     private String createdDate, status, title, description, deadline, email, phone, url;
     private int id;
 
+    //Instance of database adapter to update the current task
     DatabaseAdapter databaseAdapter;
     int result;
 
@@ -37,6 +38,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         databaseAdapter = new DatabaseAdapter(this);
 
+        //getting the intent value for showing the details
         if (getIntent() != null) {
             createdDate = getIntent().getStringExtra("createdDate");
             status = getIntent().getStringExtra("status");
@@ -49,12 +51,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
             id = getIntent().getIntExtra("id", -1);
         }
 
+        //instantiate UI variable
         initUI();
 
         //setting the value:
         setUpValueOnUi();
     }
 
+    //setting up the UI value for showing the details of single task
     private void setUpValueOnUi() {
         taskCreatedDate.setText(createdDate);
         taskStatus.setText(status);
@@ -68,11 +72,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!email.equals("")) {
                     try {
+                        //it will redirect you to the email or gmail app
                         startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + email)));
                     } catch (android.content.ActivityNotFoundException e) {
+                        //if no application found in the device then it will throw an exception
                         Toast.makeText(TaskDetailsActivity.this, "No application found!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    //if no email provided
                     Toast.makeText(TaskDetailsActivity.this, "No email found!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -80,6 +87,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         taskPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //it will redirect you to the dial pad with phone number
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:" + phone));
                 startActivity(intent);
@@ -88,6 +96,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         taskUrl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //it will open in browser
                 if (!url.equals("")) {
                     if (!url.startsWith("http://")) {
                         url = "http://" + url;
@@ -114,6 +123,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         taskPhone = findViewById(R.id.phoneLayout);
         taskUrl = findViewById(R.id.urlLayout);
 
+        //For deleting the task from details
         deleteTask = findViewById(R.id.deleteTaskFromDetailsPage);
         deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +131,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 result = databaseAdapter.deleteTask("" + id);
                 if (result > 0) {
                     Toast.makeText(TaskDetailsActivity.this, "Task deleted successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(TaskDetailsActivity.this, MainActivity.class)
+                    startActivity(new Intent(TaskDetailsActivity.this, HomeScreen.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
@@ -132,6 +142,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
         });
 
 
+        //if want to update task from details
         editTaskBtn = findViewById(R.id.editTaskFloatingBtn);
         editTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
